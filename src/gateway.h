@@ -27,7 +27,9 @@
 #ifndef _GATEWAY_H_
 #define _GATEWAY_H_
  
-/** @brief exits cleanly and clear the firewall rules. */
+/** @brief exits cleanly and clear the firewall rules.
+ * 清除防火墙规则
+ */
 void termination_handler(int s);
 
 #endif /* _GATEWAY_H_ */

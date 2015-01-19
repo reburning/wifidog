@@ -495,7 +495,9 @@ main_loop(void)
 	/* never reached */
 }
 
-/** Reads the configuration file and then starts the main loop */
+/** Reads the configuration file and then starts the main loop
+ * 程序入口
+ */
 int main(int argc, char **argv) {
 
 	s_config *config = config_get_config();
@@ -503,14 +505,20 @@ int main(int argc, char **argv) {
 
 	parse_commandline(argc, argv);
 
-	/* Initialize the config */
+	/* Initialize the config
+	 * 初始化配置
+	 */
 	config_read(config->configfile);
 	config_validate();
 
-	/* Initializes the linked list of connected clients */
+	/* Initializes the linked list of connected clients
+	 * 初始化连接的客户端
+	 */
 	client_list_init();
 
-	/* Init the signals to catch chld/quit/etc */
+	/* Init the signals to catch chld/quit/etc
+	 * 初始化信号量
+	 */
 	init_signals();
 
 	if (restart_orig_pid) {
