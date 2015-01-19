@@ -96,7 +96,7 @@ authenticate_client(request *r)
 	t_client	*client;
 	t_authresponse	auth_response;
 	char	*mac,
-		*token;
+			*token;
 	httpVar *var;
 	char *urlFragment = NULL;
 	s_config	*config = NULL;
@@ -107,6 +107,7 @@ authenticate_client(request *r)
 	client = client_list_find_by_ip(r->clientAddr);
 
 	if (client == NULL) {
+		//找不到客户端,解锁----todo::找不到客户端,解锁
 		debug(LOG_ERR, "authenticate_client(): Could not find client for %s", r->clientAddr);
 		UNLOCK_CLIENT_LIST();
 		return;
@@ -116,7 +117,9 @@ authenticate_client(request *r)
 
 	/* Users could try to log in(so there is a valid token in
 	 * request) even after they have logged in, try to deal with
-	 * this */
+	 * this
+	 * 清楚已经用过的token----todo::有待修改
+	 */
 	if ((var = httpdGetVariableByName(r, "token")) != NULL) {
 		if (client->token)
 			free(client->token);
@@ -133,6 +136,7 @@ authenticate_client(request *r)
 	 * At this point we've released the lock while we do an HTTP request since it could
 	 * take multiple seconds to do and the gateway would effectively be frozen if we
 	 * kept the lock.
+	 * 发起认证请求----todo::发起认证请求
 	 */
 	auth_server_request(&auth_response, REQUEST_TYPE_LOGIN, r->clientAddr, mac, token, 0, 0);
 	
@@ -141,7 +145,7 @@ authenticate_client(request *r)
 	/* can't trust the client to still exist after n seconds have passed */
 	client = client_list_find(r->clientAddr, mac);
 	
-	if (client == NULL) {
+	if (client == NULL) {//todo::找不到客户端节点
 		debug(LOG_ERR, "authenticate_client(): Could not find client node for %s (%s)", r->clientAddr, mac);
 		UNLOCK_CLIENT_LIST();
 		free(token);

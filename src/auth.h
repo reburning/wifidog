@@ -31,7 +31,7 @@
 
 /**
  * @brief Authentication codes returned by auth server.
- *
+ * 服务端返回码
  * Authentication result codes returned by auth_server_request() corresponding
  * to result code from the central server itself.
  */
@@ -46,16 +46,21 @@ typedef enum {
 
 /** 
  * @brief This structure contains all the information returned by the  authentication server
+ * 服务端返回的所有信息
  */
 typedef struct _t_authresponse {
     t_authcode authcode; /**< Authentication code returned by the server */
 } t_authresponse;
 
 
-/** @brief Authenticate a single client against the central server */
+/** @brief Authenticate a single client against the central server
+ * 认证
+ */
 void authenticate_client(request *);
 
-/** @brief Periodically check if connections expired */
+/** @brief Periodically check if connections expired
+ * 定期检查连接是否过期
+ */
 void thread_client_timeout_check(const void *arg);
 
 #endif
